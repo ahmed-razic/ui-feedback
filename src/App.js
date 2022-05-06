@@ -1,28 +1,33 @@
+import { useState } from 'react';
+import Header from './components/Header';
+import FeedbackList from './components/FeedbackList';
+import { FeedbackData } from './data/FeedbackData';
+import FeedbackStats from './components/FeedbackStats';
+
 function App() {
-  const title = 'My App';
-  const hello = 'Hello';
-  const comments = [
-    { id: 1, text: 'Comment 1' },
-    { id: 2, text: 'Comment 2' },
-    { id: 3, text: 'Comment 3' },
-  ];
-  const showComments = true;
-  const commentsBlock = (
-    <ul>
-      {comments.map((item, index) => (
-        <li key={index}>{item.text}</li>
-      ))}
-    </ul>
-  );
+  const [feedback, setFeedback] = useState(FeedbackData);
+  const handleDelete = function (id) {
+    if (window.confirm('Are you sure?')) {
+      setFeedback(feedback.filter((item) => item.id !== id));
+    }
+  };
+
+  const handleRatingClick = function (id) {
+    console.log(id);
+  };
 
   return (
-    <div>
-      <h1>{title}</h1>
-      <p className='name-class'>{hello}</p>
-
-      <h3>Comments({comments.length})</h3>
-      {showComments && commentsBlock}
-    </div>
+    <>
+      <Header />
+      <div className='container'>
+        <FeedbackStats feedback={feedback} />
+        <FeedbackList
+          feedback={feedback}
+          deleteItem={handleDelete}
+          ratingClick={handleRatingClick}
+        />
+      </div>
+    </>
   );
 }
 export default App;
