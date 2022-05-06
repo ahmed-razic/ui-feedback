@@ -1,3 +1,9 @@
 body {
   color: red;
 }
+
+.name-class {
+  font-weight: bolder;
+  font-size: 3rem;
+  color: green;
+}
