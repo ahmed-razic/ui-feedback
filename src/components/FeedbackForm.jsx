@@ -3,9 +3,10 @@ import FeedbackContext from '../context/FeedbackContext';
 import Card from './Card';
 import Button from './Button';
 import RatingSelect from './RatingSelect';
+import AboutLink from '../components/AboutLink';
 
 function FeedbackForm() {
-  const { addItem, itemToEdit, updateItem } = useContext(FeedbackContext);
+  const { addItem, feedbackEdit, handleUpdate } = useContext(FeedbackContext);
 
   const [text, setText] = useState('');
   const [rating, setRating] = useState(10);
@@ -13,12 +14,12 @@ function FeedbackForm() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (itemToEdit.edit) {
+    if (feedbackEdit.edit) {
       setBtnDisabled(false);
-      setText(itemToEdit.item.text);
-      setRating(itemToEdit.item.rating);
+      setText(feedbackEdit.item.text);
+      setRating(feedbackEdit.item.rating);
     }
-  }, [itemToEdit]);
+  }, [feedbackEdit]);
 
   const handleTextChange = function (e) {
     if (text === '') {
@@ -42,9 +43,8 @@ function FeedbackForm() {
         rating: rating,
       };
 
-      if (itemToEdit.edit === true) {
-        console.log(itemToEdit.item);
-        updateItem(itemToEdit.item.id, newFeedback);
+      if (feedbackEdit.edit === true) {
+        handleUpdate(feedbackEdit.item.id, newFeedback);
       } else {
         addItem(newFeedback);
       }
@@ -52,25 +52,29 @@ function FeedbackForm() {
     }
   };
   return (
-    <Card>
-      <form onSubmit={handleSubmit}>
-        <h2>How would you rate us?</h2>
-        <RatingSelect select={(selectedRating) => setRating(selectedRating)} />
-        <div className='input-group'>
-          <input
-            type='text'
-            id='input-text'
-            onChange={handleTextChange}
-            placeholder='Write a review'
-            value={text}
+    <>
+      <Card>
+        <form onSubmit={handleSubmit}>
+          <h2>How would you rate us?</h2>
+          <RatingSelect
+            select={(selectedRating) => setRating(selectedRating)}
           />
-          <Button type='submit' isDisabled={btnDisabled}>
-            Send
-          </Button>
-        </div>
-        {message && <div className='message'>{message}</div>}
-      </form>
-    </Card>
+          <div className='input-group'>
+            <input
+              type='text'
+              id='input-text'
+              onChange={handleTextChange}
+              placeholder='Write a review'
+              value={text}
+            />
+            <Button type='submit' isDisabled={btnDisabled}>
+              Send
+            </Button>
+          </div>
+          {message && <div className='message'>{message}</div>}
+        </form>
+      </Card>
+    </>
   );
 }
 export default FeedbackForm;

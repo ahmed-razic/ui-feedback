@@ -24,18 +24,22 @@ export const FeedbackProvider = function ({ children }) {
   };
 
   const handleUpdate = function (id, updatedItem) {
-    //console.log(id, updatedItem);
+    setFeedback(
+      feedback.map((item) =>
+        item.id === id ? { ...item, ...updatedItem } : item
+      )
+    );
   };
 
   return (
     <FeedbackContext.Provider
       value={{
         feedback: feedback,
-        itemToEdit: feedbackEdit,
+        feedbackEdit: feedbackEdit,
         deleteItem: handleDelete,
         addItem: handleAdd,
         editItem: handleEdit,
-        updateItem: handleUpdate,
+        handleUpdate: handleUpdate,
       }}
     >
       {children}

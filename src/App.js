@@ -5,6 +5,7 @@ import FeedbackStats from './components/FeedbackStats';
 import FeedbackForm from './components/FeedbackForm';
 import About from './pages/About';
 import AboutLink from './components/AboutLink';
+
 import { FeedbackProvider } from './context/FeedbackContext';
 
 function App() {
@@ -22,12 +23,12 @@ function App() {
                   <FeedbackForm />
                   <FeedbackStats />
                   <FeedbackList />
+                  <AboutLink />
                 </>
               }
             ></Route>
             <Route path='/about' element={<About />}></Route>
           </Routes>
-          <AboutLink />
         </div>
       </Router>
     </FeedbackProvider>
